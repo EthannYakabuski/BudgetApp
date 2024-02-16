@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://n3wwlq37r7nf"]
+
+[ext_resource type="Script" path="res://add_main_category.gd" id="1_e5eft"]
+
+[node name="AddMainCategory" type="Node2D"]
+script = ExtResource("1_e5eft")
+
+[node name="AddChildItem" type="Button" parent="."]
+offset_left = 24.0
+offset_top = 181.0
+offset_right = 122.0
+offset_bottom = 218.0
+text = "+"
+
+[node name="NameParentItem" type="LineEdit" parent="."]
+offset_left = 86.0
+offset_top = 15.0
+offset_right = 395.0
+offset_bottom = 46.0
