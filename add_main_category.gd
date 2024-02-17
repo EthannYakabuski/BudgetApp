@@ -3,36 +3,47 @@ var categoryName = "Pets"
 var childItems = []
 var newItems = []
 
+var definedCategories = [];
+
+func save_data():
+	var file = FileAccess.open("user://saved_categories.dat", FileAccess.WRITE)
+	if file:
+		file.store_string("Internet\nPets\nPhone\nGroceries\n")
+		file.close()
+		print("Game data saved!")
+	
+func load_data(): 
+	var savedCategoriesFile = FileAccess.open("user://saved_categories.dat", FileAccess.READ)
+	if savedCategoriesFile: 
+		var data = savedCategoriesFile.get_as_text()
+		var categoryNames = data.split("\n")
+		savedCategoriesFile.close()
+		definedCategories = categoryNames
+		print(data)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$NameParentItem.text = categoryName
-	$AddChildItem.position = Vector2(411, 15)
+	$AddChildItem.position = Vector2(220, 627)
+	save_data()
+	load_data()
+	drawCategories()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
-# (+) button was pushed
-func _on_add_child_item_pressed():
-	pass
-
-# parent name was changed (enter)
-func _on_name_parent_item_text_submitted(new_text):
-	print("parent category updated to " + new_text)
-
-#not signal based - called by _on_add_child_item_pressed
-func updateChildItems(): 
-	print("updating child items")
-	for child in newItems: 
-		child.position = Vector2(10, childItems.size()*50 + 150) #update position of new list item
-		add_child(child)
-		childItems.push_back(child)
-	newItems.clear() #clear the pending items
+	
+#draws the category names
+func drawCategories(): 
+	print("drawing category names")
+	var items = 1
+	for child in definedCategories: 
+		var newItem = LineEdit.new()
+		newItem.position = Vector2(10, items*50 + 150) #update position of new list item
+		newItem.text = child
+		items = items + 1
+		add_child(newItem)
 
 # (+) button was pushed
 func _on_texture_button_pressed():
-	print("add child item")
-	var new_child = LineEdit.new()
-	newItems.push_back(new_child)
-	new_child.placeholder_text = "New Item"
-	updateChildItems()
+	print("+ button pushed")

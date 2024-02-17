@@ -14,10 +14,10 @@ offset_right = 399.0
 offset_bottom = 46.0
 
 [node name="AddChildItem" type="TextureButton" parent="."]
-offset_left = 411.0
-offset_top = 15.0
-offset_right = 523.0
-offset_bottom = 127.0
+offset_left = 220.0
+offset_top = 627.0
+offset_right = 332.0
+offset_bottom = 740.0
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("2_fbgmv")
 
