@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://o518lsyiusym"]
+[gd_scene load_steps=5 format=3 uid="uid://o518lsyiusym"]
 
 [ext_resource type="Script" path="res://background.gd" id="1_fodxh"]
-[ext_resource type="Texture2D" uid="uid://bmhagaw0sqv47" path="res://images/three quarter circle (1).png" id="2_m0l7b"]
+[ext_resource type="Texture2D" uid="uid://5it75af45exy" path="res://images/bar.png" id="2_uc45p"]
+[ext_resource type="Texture2D" uid="uid://jwfaofu1bj4b" path="res://images/square joint.png" id="3_uw2ve"]
+[ext_resource type="Texture2D" uid="uid://l7ptai8lx7dh" path="res://images/vertical bar.png" id="4_oavg2"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_fodxh")
@@ -14,16 +16,42 @@ offset_bottom = 74.0
 text = "+"
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-offset_left = 131.0
-offset_top = 261.0
-offset_right = 1037.0
-offset_bottom = 635.0
-value = 35.0
+offset_left = 39.0
+offset_top = 195.0
+offset_right = 995.0
+offset_bottom = 581.0
+max_value = 20.0
+value = 20.0
 rounded = true
-fill_mode = 4
-texture_under = ExtResource("2_m0l7b")
-texture_progress = ExtResource("2_m0l7b")
+texture_under = ExtResource("2_uc45p")
+texture_progress = ExtResource("2_uc45p")
 tint_under = Color(0.137255, 0.137255, 0.137255, 0.658824)
 tint_progress = Color(0.196078, 0.803922, 0.196078, 1)
+
+[node name="TextureProgressBar2" type="TextureProgressBar" parent="."]
+offset_left = 611.0
+offset_top = 195.0
+offset_right = 997.0
+offset_bottom = 580.0
+min_value = 21.0
+max_value = 25.0
+value = 22.0
+fill_mode = 7
+texture_under = ExtResource("3_uw2ve")
+texture_progress = ExtResource("3_uw2ve")
+tint_under = Color(0.137255, 0.137255, 0.137255, 0.658824)
+
+[node name="TextureProgressBar3" type="TextureProgressBar" parent="."]
+offset_left = 611.0
+offset_top = 238.0
+offset_right = 653.0
+offset_bottom = 811.0
+min_value = 26.0
+max_value = 45.0
+value = 26.0
+fill_mode = 2
+texture_under = ExtResource("4_oavg2")
+texture_progress = ExtResource("4_oavg2")
+tint_under = Color(0.137255, 0.137255, 0.137255, 0.721569)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
