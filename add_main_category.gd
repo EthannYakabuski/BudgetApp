@@ -24,7 +24,7 @@ func load_data():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$NameParentItem.text = categoryName
-	$AddChildItem.position = Vector2(220, 627)
+	$AddChildItem.position = Vector2(180, 562)
 	save_data()
 	load_data()
 	drawCategories()
