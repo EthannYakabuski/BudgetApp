@@ -1,52 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://n3wwlq37r7nf"]
 
 [ext_resource type="Script" path="res://add_main_category.gd" id="1_e5eft"]
-[ext_resource type="Texture2D" uid="uid://cr8le0rhw2bac" path="res://images/Blue add button.png" id="2_hyr3r"]
+[ext_resource type="Texture2D" uid="uid://b67px7nh1tpmx" path="res://images/add button.png" id="2_7ebnm"]
 
 [node name="AddMainCategory" type="Node2D"]
 script = ExtResource("1_e5eft")
-
-[node name="NameParentItem" type="LineEdit" parent="."]
-modulate = Color(1, 0, 0.564706, 1)
-offset_left = 90.0
-offset_top = 15.0
-offset_right = 399.0
-offset_bottom = 46.0
 
 [node name="AddChildItem" type="TextureButton" parent="."]
 offset_left = 190.0
 offset_top = 562.0
 offset_right = 541.0
 offset_bottom = 913.0
-texture_normal = ExtResource("2_hyr3r")
+texture_normal = ExtResource("2_7ebnm")
 
-[node name="Planned_Label" type="Label" parent="."]
-offset_left = 118.0
-offset_top = 98.0
-offset_right = 182.0
-offset_bottom = 121.0
-text = "Planned"
-
-[node name="Spent_Label" type="Label" parent="."]
-offset_left = 209.0
-offset_top = 98.0
-offset_right = 254.0
-offset_bottom = 121.0
-text = "Spent"
-
-[node name="Remaining_Label" type="Label" parent="."]
-offset_left = 280.0
-offset_top = 98.0
-offset_right = 363.0
-offset_bottom = 121.0
-text = "Remaining"
-
-[node name="Total_Label" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 97.0
-offset_right = 428.0
-offset_bottom = 120.0
-text = "Total"
-
-[connection signal="text_submitted" from="NameParentItem" to="." method="_on_name_parent_item_text_submitted"]
 [connection signal="pressed" from="AddChildItem" to="." method="_on_texture_button_pressed"]
