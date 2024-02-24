@@ -7,10 +7,11 @@
 script = ExtResource("1_e5eft")
 
 [node name="AddChildItem" type="TextureButton" parent="."]
-offset_left = 190.0
-offset_top = 562.0
-offset_right = 541.0
-offset_bottom = 913.0
+offset_left = 201.0
+offset_top = 555.0
+offset_right = 552.0
+offset_bottom = 906.0
+scale = Vector2(0.75, 0.75)
 texture_normal = ExtResource("2_7ebnm")
 
 [connection signal="pressed" from="AddChildItem" to="." method="_on_texture_button_pressed"]
