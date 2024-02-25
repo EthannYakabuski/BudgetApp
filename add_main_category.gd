@@ -62,6 +62,18 @@ func drawCategories():
 		uiElements.push_back(newItem)
 		uiElements.push_back(newProgress)
 		uiElements.push_back(newAddition)
+		#add the budgetted label
+		var budgettedLabel = Label.new()
+		budgettedLabel.position = Vector2(10, items*75 + 130)
+		budgettedLabel.text = "Budget: " + str(category["budgeted"])
+		budgettedLabel.modulate = Color(0,0,0,1)
+		add_child(budgettedLabel)
+		#add the rolled over label
+		
+		#add the spent label
+		
+		#add the remaining label
+		
 		
 		#increment items for UI layout
 		items = items + 1
