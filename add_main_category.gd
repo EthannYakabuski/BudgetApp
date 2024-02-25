@@ -1,5 +1,4 @@
 extends Node2D
-
 var categoryData
 var uiElements = []
 	
@@ -28,6 +27,10 @@ func clearUI():
 		remove_child(element)
 	uiElements.clear()
 	
+#called when category lineEdit is renamed
+func categoryRename(newName): 
+	print("category renamed " + newName)
+	
 #draws the title amounts
 func drawTitleAmounts(): 
 	print("drawing title amounts")
@@ -54,6 +57,8 @@ func drawCategories():
 		newItem.position = Vector2(10, items*75 + 50) #update position of new list item
 		newItem.text = category["name"]
 		add_child(newItem)
+		newItem.connect("text_submitted", categoryRename)
+		#adds the event listener for renaming category
 		#add the progress bar
 		var newProgress = TextureProgressBar.new()
 		newProgress.texture_under = load("res://images/bar.png")
