@@ -16,6 +16,7 @@ func _ready():
 	$AddChildItem.position = Vector2(191, 555)
 	load_data()
 	drawCategories()
+	drawTitleAmounts()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -26,6 +27,17 @@ func clearUI():
 	for element in uiElements: 
 		remove_child(element)
 	uiElements.clear()
+	
+#draws the title amounts
+func drawTitleAmounts(): 
+	print("drawing title amounts")
+	var json = JSON.new()
+	var parsedData = json.parse(categoryData)
+	var finalData = json.get_data()
+	var titles = finalData["titles"]
+	$IncomeLabel/IncomeAmountLabel.text = str(titles.income)
+	$ExpensesLabel/ExpenseAmountLabel.text = str(titles.expenses)
+	$SavingsLabel/SavingsAmountLabel.text = str(titles.savings)
 	
 #draws the category names
 func drawCategories(): 
@@ -39,7 +51,7 @@ func drawCategories():
 	for category in categories: 
 		#add the editable category name
 		var newItem = LineEdit.new() #todo add change listener
-		newItem.position = Vector2(10, items*75 + 100) #update position of new list item
+		newItem.position = Vector2(10, items*75 + 50) #update position of new list item
 		newItem.text = category["name"]
 		add_child(newItem)
 		#add the progress bar
@@ -48,14 +60,14 @@ func drawCategories():
 		newProgress.texture_progress = load("res://images/bar.png")
 		newProgress.tint_progress = "3cba00b8"
 		newProgress.value = (category["spent"]/category["budgeted"])*100
-		newProgress.position = Vector2(100, items*75 + 100)
+		newProgress.position = Vector2(100, items*75 + 50)
 		newProgress.scale.x = 0.5
 		newProgress.scale.y = 0.7
 		add_child(newProgress)
 		#add the arrow button
 		var newAddition = TextureButton.new()
 		newAddition.texture_normal = load("res://images/arrow button.png");
-		newAddition.position = Vector2(400, items*75 + 83)
+		newAddition.position = Vector2(400, items*75 + 33)
 		newAddition.scale.x = 0.5
 		newAddition.scale.y = 0.5
 		add_child(newAddition)
@@ -64,16 +76,32 @@ func drawCategories():
 		uiElements.push_back(newAddition)
 		#add the budgetted label
 		var budgettedLabel = Label.new()
-		budgettedLabel.position = Vector2(10, items*75 + 130)
+		budgettedLabel.position = Vector2(10, items*75 + 85)
 		budgettedLabel.text = "Budget: " + str(category["budgeted"])
 		budgettedLabel.modulate = Color(0,0,0,1)
+		budgettedLabel.add_theme_font_size_override("font_size", 12)
 		add_child(budgettedLabel)
 		#add the rolled over label
-		
+		var rolledLabel = Label.new()
+		rolledLabel.position = Vector2(100, items*75 + 85)
+		rolledLabel.text = "Rolled Over: " + str(category["rolledOver"])
+		rolledLabel.modulate = Color(0,0,0,1)
+		rolledLabel.add_theme_font_size_override("font_size", 12)
+		add_child(rolledLabel)
 		#add the spent label
-		
+		var spentLabel = Label.new()
+		spentLabel.position = Vector2(210, items*75 + 85)
+		spentLabel.text = "Spent: " + str(category["spent"])
+		spentLabel.modulate = Color(0,0,0,1)
+		spentLabel.add_theme_font_size_override("font_size", 12)
+		add_child(spentLabel)
 		#add the remaining label
-		
+		var remainingLabel = Label.new()
+		remainingLabel.position = Vector2(290, items*75 + 85)
+		remainingLabel.text = "Remains: " + str(category["remaining"])
+		remainingLabel.modulate = Color(0,0,0,1)
+		remainingLabel.add_theme_font_size_override("font_size", 12)
+		add_child(remainingLabel)
 		
 		#increment items for UI layout
 		items = items + 1
