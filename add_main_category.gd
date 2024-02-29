@@ -107,7 +107,7 @@ func drawCategories():
 		newItem.text = category["name"]
 		add_child(newItem)
 		#player.hit.connect(_on_player_hit.bind("sword", 100))
-		newItem.connect("text_submitted", categoryRename.bind(items))
+		newItem.connect("text_changed", categoryRename.bind(items))
 		#adds the event listener for renaming category
 		#add the progress bar
 		var newProgress = TextureProgressBar.new()
