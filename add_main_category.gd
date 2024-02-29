@@ -1,6 +1,7 @@
 extends Node2D
 var categoryData
 var uiElements = []
+@export var transaction_scene: PackedScene
 	
 func load_data(): 
 	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.READ)
@@ -79,7 +80,20 @@ func removeLastChunk(stringArray):
 			outString = outString + " " + string
 		cur = cur + 1
 	return outString
-	
+
+#event listener for add trans button
+func addTransaction(categoryIndex):
+	print("adding transaction")
+	var transScene = transaction_scene.instantiate()
+	clearUI()
+	$IncomeLabel.visible = false
+	$ExpensesLabel.visible = false
+	$SavingsLabel.visible = false
+	$IncomeLabel/IncomeAmountLabel.visible = false
+	$ExpensesLabel/ExpenseAmountLabel.visible = false
+	$SavingsLabel/SavingsAmountLabel.visible = false
+	add_child(transScene)
+
 #draws the title amounts
 func drawTitleAmounts(): 
 	print("drawing title amounts")
@@ -125,6 +139,7 @@ func drawCategories():
 		newAddition.position = Vector2(400, items*75 + 33)
 		newAddition.scale.x = 0.5
 		newAddition.scale.y = 0.5
+		newAddition.connect("pressed", addTransaction.bind(items))
 		add_child(newAddition)
 		uiElements.push_back(newItem)
 		uiElements.push_back(newProgress)
@@ -157,6 +172,10 @@ func drawCategories():
 		remainingLabel.modulate = Color(0,0,0,1)
 		remainingLabel.add_theme_font_size_override("font_size", 12)
 		add_child(remainingLabel)
+		uiElements.push_back(budgettedLabel)
+		uiElements.push_back(rolledLabel)
+		uiElements.push_back(spentLabel)
+		uiElements.push_back(remainingLabel)
 		
 		#increment items for UI layout
 		items = items + 1
