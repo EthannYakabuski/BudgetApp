@@ -28,8 +28,57 @@ func clearUI():
 	uiElements.clear()
 	
 #called when category lineEdit is renamed
-func categoryRename(newName): 
-	print("category renamed " + newName)
+func categoryRename(newName, controlIndex): 
+	print("category renamed to " + newName)
+	saveCategoryRename(controlIndex,newName)
+	
+#
+func saveCategoryRename(index, newName): 
+	print("saving category")
+	print(str(index))
+	print("newName: " + newName)
+	var json = JSON.new()
+	#get the existing data
+	var existingData = json.parse(categoryData)
+	var finalData = json.get_data()
+	#access the categories space of the data
+	var categories = finalData["categories"]
+	#find the category that needs to be updated
+	var amountTraversed = 0
+	var indexToFind = int(index)
+	for category in categories: 
+		if(amountTraversed == int(indexToFind-1)): 
+			print("updating name")
+			category.name = newName
+		amountTraversed = amountTraversed + 1
+	#update the handle
+	finalData["categories"] = categories
+	#print(finalData)
+	
+	#prepare the data for storage
+	var jsonString = json.stringify(finalData)
+	var parsed = json.parse(jsonString)
+	var new_data_to_write = json.get_data()
+	#write to the file
+	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.WRITE)
+	if savedCategoriesFile:
+		print(new_data_to_write)
+		var store = json.stringify(new_data_to_write)
+		savedCategoriesFile.store_string(store)
+	savedCategoriesFile.close()
+	load_data()
+
+#in StringPackedArray
+#out String - except for the last element of the StringPackedArray
+func removeLastChunk(stringArray): 
+	var len = stringArray.size()
+	var outString = ""
+	var cur = 0
+	for string in stringArray: 
+		if(cur != len-1):
+			outString = outString + " " + string
+		cur = cur + 1
+	return outString
 	
 #draws the title amounts
 func drawTitleAmounts(): 
@@ -57,7 +106,8 @@ func drawCategories():
 		newItem.position = Vector2(10, items*75 + 50) #update position of new list item
 		newItem.text = category["name"]
 		add_child(newItem)
-		newItem.connect("text_submitted", categoryRename)
+		#player.hit.connect(_on_player_hit.bind("sword", 100))
+		newItem.connect("text_submitted", categoryRename.bind(items))
 		#adds the event listener for renaming category
 		#add the progress bar
 		var newProgress = TextureProgressBar.new()
@@ -123,15 +173,19 @@ func _on_texture_button_pressed():
 	#get the existing data
 	var existingData = json.parse(categoryData)
 	var finalData = json.get_data()
+	#access the categories space of the data
 	var categories = finalData["categories"]
+	#add the new entry
 	categories.push_back(newEntry)
+	#update the handle
 	finalData["categories"] = categories
-	#print(categories)
 	print(finalData)
 	
+	#prepare the data for storage
 	var jsonString = json.stringify(finalData)
 	var parsed = json.parse(jsonString)
 	var new_data_to_write = json.get_data()
+	#write to the file
 	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.WRITE)
 	if savedCategoriesFile:
 		print(new_data_to_write)
