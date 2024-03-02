@@ -27,6 +27,7 @@ func clearUI():
 	for element in uiElements: 
 		remove_child(element)
 	uiElements.clear()
+	$AddChildItem.visible = false
 	
 #called when category lineEdit is renamed
 func categoryRename(newName, controlIndex): 
