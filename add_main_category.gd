@@ -86,6 +86,7 @@ func removeLastChunk(stringArray):
 func addTransaction(categoryIndex):
 	print("adding transaction")
 	var transScene = transaction_scene.instantiate()
+	transScene.main = load("res://add_main_category.tscn")
 	clearUI()
 	#find category name
 	var categoryName = ""

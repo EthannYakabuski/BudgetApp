@@ -1,6 +1,8 @@
 extends Node2D
 var categoryData
 var merchants
+var uiElements = []
+@export var main: PackedScene
 
 func load_data(): 
 	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.READ)
@@ -21,6 +23,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	
+func clearUI():
+	$CategoryLabel.visible = false
+	$PurchaseAmountInput.visible = false
+	$Notes.visible = false
+	$NotesLabel.visible = false
+	$MenuButton.visible = false
+	$SaveButton.visible = false
 
 func loadMerchants(): 
 	print("loading and populating merchant dropdown")
@@ -70,5 +80,6 @@ func _on_save_button_pressed():
 		var store = json.stringify(new_data_to_write)
 		savedCategoriesFile.store_string(store)
 	savedCategoriesFile.close()
-	
+	clearUI()
+	add_child(main.instantiate())
 	
