@@ -13,7 +13,7 @@ func load_data():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#$NameParentItem.text = categoryName
-	$AddChildItem.position = Vector2(191, 555)
+	$AddChildItem.position = Vector2(191, 500)
 	load_data()
 	drawCategories()
 	drawTitleAmounts()
@@ -28,6 +28,10 @@ func clearUI():
 		remove_child(element)
 	uiElements.clear()
 	$AddChildItem.visible = false
+	$TransactionsMenu.visible = false
+	$AnalyticsMenu.visible = false
+	$IncomeMenu.visible = false
+	$AccountsMenu.visible = false
 	
 #called when category lineEdit is renamed
 func categoryRename(newName, controlIndex): 
@@ -236,3 +240,19 @@ func _on_texture_button_pressed():
 	clearUI()
 	drawCategories()
 	
+
+
+func _on_accounts_menu_pressed():
+	print("loading accounts")
+
+
+func _on_income_menu_pressed():
+	print("loading income sources")
+
+
+func _on_analytics_menu_pressed():
+	print("loading analytics")
+
+
+func _on_transactions_menu_pressed():
+	print("loading transactions")
