@@ -95,7 +95,7 @@ func addTransaction(categoryIndex):
 	var finalData = json.get_data()
 	#access the categories space of the data
 	var categories = finalData["categories"]
-	#find the category that needs to be updated
+	#find the category
 	var amountTraversed = 0
 	var indexToFind = int(categoryIndex)
 	for category in categories: 

@@ -43,3 +43,32 @@ func onMerchantItemSelected(id):
 
 func _on_save_button_pressed():
 	print("saving transaction")
+	var notes = $Notes.text
+	var merchant = $MenuButton.text
+	var amount = $PurchaseAmountInput.text
+	var categoryName = $CategoryLabel.text
+	var json = JSON.new()
+	var transactionObjectString = "{\"merchant\":\"{0}\",\"amount\":\"{1}\",\"notes\":\"{2}\"}".format([merchant, amount, notes])
+	var parsedData = json.parse(transactionObjectString)
+	var newEntry = json.get_data()
+	var parsedDataTotal = json.parse(categoryData)
+	var finalData = json.get_data()
+	var categories = finalData["categories"]
+	for category in categories: 
+		if(category.name == categoryName): 
+			var transactionArray = category["transactions"]
+			transactionArray.push_back(newEntry)
+	finalData["categories"] = categories
+	#prepare the data for storage
+	var jsonString = json.stringify(finalData)
+	var parsed = json.parse(jsonString)
+	var new_data_to_write = json.get_data()
+	#write to the file
+	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.WRITE)
+	if savedCategoriesFile:
+		print(new_data_to_write)
+		var store = json.stringify(new_data_to_write)
+		savedCategoriesFile.store_string(store)
+	savedCategoriesFile.close()
+	
+	
