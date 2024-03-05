@@ -87,6 +87,22 @@ func addTransaction(categoryIndex):
 	print("adding transaction")
 	var transScene = transaction_scene.instantiate()
 	clearUI()
+	#find category name
+	var categoryName = ""
+	var json = JSON.new()
+	#get the existing data
+	var existingData = json.parse(categoryData)
+	var finalData = json.get_data()
+	#access the categories space of the data
+	var categories = finalData["categories"]
+	#find the category that needs to be updated
+	var amountTraversed = 0
+	var indexToFind = int(categoryIndex)
+	for category in categories: 
+		if(amountTraversed == int(indexToFind-1)): 
+			print("updating name")
+			categoryName = category.name
+		amountTraversed = amountTraversed + 1	
 	$IncomeLabel.visible = false
 	$ExpensesLabel.visible = false
 	$SavingsLabel.visible = false
@@ -94,6 +110,8 @@ func addTransaction(categoryIndex):
 	$ExpensesLabel/ExpenseAmountLabel.visible = false
 	$SavingsLabel/SavingsAmountLabel.visible = false
 	add_child(transScene)
+	var categoryLabel = transScene.get_node("CategoryLabel")
+	categoryLabel.text = categoryName
 
 #draws the title amounts
 func drawTitleAmounts(): 
