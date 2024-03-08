@@ -1,6 +1,7 @@
 extends Node2D
 var categoryData
 var uiElements = []
+var uiData = []
 @export var transaction_scene: PackedScene
 	
 func load_data(): 
@@ -15,6 +16,7 @@ func _ready():
 	#$NameParentItem.text = categoryName
 	$AddChildItem.position = Vector2(191, 500)
 	load_data()
+	calculateCategoryInformation()
 	drawCategories()
 	drawTitleAmounts()
 
@@ -240,7 +242,22 @@ func _on_texture_button_pressed():
 	clearUI()
 	drawCategories()
 	
-
+func calculateCategoryInformation(): 
+	print("calculating category information to display")
+	#get the existing data
+	var json = JSON.new()
+	var existingData = json.parse(categoryData)
+	var finalData = json.get_data()
+	#access the categories space of the data
+	var categories = finalData["categories"]
+	for category in categories:
+		var transactionArray = category["transactions"]
+		var amountSpent = 0
+		for transaction in transactionArray: 
+			amountSpent = int(amountSpent + int(transaction.amount.erase(0,1)))
+		uiData.push_back([category.name, amountSpent])
+	print(uiData)
+		
 
 func _on_accounts_menu_pressed():
 	print("loading accounts")

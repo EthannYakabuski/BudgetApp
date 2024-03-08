@@ -31,6 +31,7 @@ func clearUI():
 	$NotesLabel.visible = false
 	$MenuButton.visible = false
 	$SaveButton.visible = false
+	$BackButton.visible = false
 
 func loadMerchants(): 
 	print("loading and populating merchant dropdown")
@@ -83,3 +84,9 @@ func _on_save_button_pressed():
 	clearUI()
 	add_child(main.instantiate())
 	
+
+
+func _on_back_button_pressed():
+	print("cancelling transaction")
+	clearUI()
+	add_child(main.instantiate())
