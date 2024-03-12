@@ -36,6 +36,7 @@ func clearUI():
 	$MenuButton.visible = false
 	$SaveButton.visible = false
 	$BackButton.visible = false
+	$Tree.visible = false
 
 func loadTransactions(): 
 	print("loading and populating transaction tree")
@@ -55,7 +56,7 @@ func loadTransactions():
 	for transaction in transactions:
 		print(transaction) 
 		var child = tree.create_item(root)
-		var itemString = transaction["amount"] + "    " + transaction["merchant"]
+		var itemString = transaction["amount"] + "    " + transaction["merchant"] + "    " + transaction["notes"]
 		child.set_text(0, itemString)
 			
 
