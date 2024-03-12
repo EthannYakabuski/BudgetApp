@@ -1,6 +1,11 @@
 extends Node2D
 var categoryData
 var uiElements = []
+var uiData = []
+@export var transaction_scene: PackedScene
+signal loadtransactions
+
+#set an exported variable value in the scene to load
 	
 func load_data(): 
 	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.READ)
@@ -12,8 +17,9 @@ func load_data():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#$NameParentItem.text = categoryName
-	$AddChildItem.position = Vector2(191, 555)
+	$AddChildItem.position = Vector2(191, 550)
 	load_data()
+	calculateCategoryInformation()
 	drawCategories()
 	drawTitleAmounts()
 
@@ -26,6 +32,12 @@ func clearUI():
 	for element in uiElements: 
 		remove_child(element)
 	uiElements.clear()
+	$AddChildItem.visible = false
+	$TransactionsMenu.visible = false
+	$AnalyticsMenu.visible = false
+	$AccountsMenu.visible = false
+	$IncomeButton.visible = false
+	$SavingsButton.visible = false
 	
 #called when category lineEdit is renamed
 func categoryRename(newName, controlIndex): 
@@ -79,7 +91,41 @@ func removeLastChunk(stringArray):
 			outString = outString + " " + string
 		cur = cur + 1
 	return outString
-	
+
+#event listener for add trans button
+func addTransaction(categoryIndex):
+	print("adding transaction")
+	var transScene = transaction_scene.instantiate()
+	transScene.main = load("res://add_main_category.tscn")
+	clearUI()
+	#find category name
+	var categoryName = ""
+	var json = JSON.new()
+	#get the existing data
+	var existingData = json.parse(categoryData)
+	var finalData = json.get_data()
+	#access the categories space of the data
+	var categories = finalData["categories"]
+	#find the category
+	var amountTraversed = 0
+	var indexToFind = int(categoryIndex)
+	for category in categories: 
+		if(amountTraversed == int(indexToFind-1)): 
+			print("updating name")
+			categoryName = category.name
+		amountTraversed = amountTraversed + 1	
+	$IncomeLabel.visible = false
+	$ExpensesLabel.visible = false
+	$SavingsLabel.visible = false
+	$IncomeLabel/IncomeAmountLabel.visible = false
+	$ExpensesLabel/ExpenseAmountLabel.visible = false
+	$SavingsLabel/SavingsAmountLabel.visible = false
+	transScene.categoryName = categoryName
+	add_child(transScene)
+	var categoryLabel = transScene.get_node("CategoryLabel")
+	categoryLabel.text = categoryName
+	loadtransactions.emit(categoryName)
+
 #draws the title amounts
 func drawTitleAmounts(): 
 	print("drawing title amounts")
@@ -125,6 +171,7 @@ func drawCategories():
 		newAddition.position = Vector2(400, items*75 + 33)
 		newAddition.scale.x = 0.5
 		newAddition.scale.y = 0.5
+		newAddition.connect("pressed", addTransaction.bind(items))
 		add_child(newAddition)
 		uiElements.push_back(newItem)
 		uiElements.push_back(newProgress)
@@ -157,6 +204,10 @@ func drawCategories():
 		remainingLabel.modulate = Color(0,0,0,1)
 		remainingLabel.add_theme_font_size_override("font_size", 12)
 		add_child(remainingLabel)
+		uiElements.push_back(budgettedLabel)
+		uiElements.push_back(rolledLabel)
+		uiElements.push_back(spentLabel)
+		uiElements.push_back(remainingLabel)
 		
 		#increment items for UI layout
 		items = items + 1
@@ -197,3 +248,57 @@ func _on_texture_button_pressed():
 	clearUI()
 	drawCategories()
 	
+func calculateCategoryInformation(): 
+	print("calculating category information to display")
+	#get the existing data
+	var json = JSON.new()
+	var existingData = json.parse(categoryData)
+	var finalData = json.get_data()
+	#access the categories space of the data
+	var categories = finalData["categories"]
+	for category in categories:
+		var transactionArray = category["transactions"]
+		var amountSpent = 0
+		for transaction in transactionArray: 
+			amountSpent = int(amountSpent + int(transaction.amount.erase(0,1)))
+		category["spent"] = amountSpent
+		category["remaining"] = int(int(category["budgeted"]) - int(category["spent"]))
+		#print(category)
+		#print("")
+	#print(categories)
+	#prepare the data for storage
+	var jsonString = json.stringify(finalData)
+	var parsed = json.parse(jsonString)
+	var new_data_to_write = json.get_data()
+	#write to the file
+	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.WRITE)
+	if savedCategoriesFile:
+		#print(new_data_to_write)
+		var store = json.stringify(new_data_to_write)
+		savedCategoriesFile.store_string(store)
+	savedCategoriesFile.close()
+	load_data()
+		
+
+func _on_accounts_menu_pressed():
+	print("loading analytics")
+
+
+func _on_income_menu_pressed():
+	print("loading income sources")
+
+
+func _on_analytics_menu_pressed():
+	print("loading accounts")
+
+
+func _on_transactions_menu_pressed():
+	print("loading transactions")
+
+
+func _on_income_button_pressed():
+	print("loading income window")
+
+
+func _on_savings_button_pressed():
+	print("loading savings window")
