@@ -292,3 +292,11 @@ func _on_analytics_menu_pressed():
 
 func _on_transactions_menu_pressed():
 	print("loading transactions")
+
+
+func _on_income_button_pressed():
+	print("loading income window")
+
+
+func _on_savings_button_pressed():
+	print("loading savings window")

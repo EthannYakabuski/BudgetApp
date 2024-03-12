@@ -97,7 +97,21 @@ offset_right = 470.0
 offset_bottom = 712.0
 text = "Analytics"
 
+[node name="IncomeButton" type="Button" parent="."]
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 140.0
+offset_bottom = 79.0
+
+[node name="SavingsButton" type="Button" parent="."]
+offset_left = 337.0
+offset_top = 4.0
+offset_right = 470.0
+offset_bottom = 78.0
+
 [connection signal="pressed" from="AddChildItem" to="." method="_on_texture_button_pressed"]
 [connection signal="pressed" from="TransactionsMenu" to="." method="_on_transactions_menu_pressed"]
 [connection signal="pressed" from="AnalyticsMenu" to="." method="_on_analytics_menu_pressed"]
 [connection signal="pressed" from="AccountsMenu" to="." method="_on_accounts_menu_pressed"]
+[connection signal="pressed" from="IncomeButton" to="." method="_on_income_button_pressed"]
+[connection signal="pressed" from="SavingsButton" to="." method="_on_savings_button_pressed"]
