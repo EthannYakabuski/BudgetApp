@@ -259,8 +259,23 @@ func calculateCategoryInformation():
 		var amountSpent = 0
 		for transaction in transactionArray: 
 			amountSpent = int(amountSpent + int(transaction.amount.erase(0,1)))
-		uiData.push_back([category.name, amountSpent])
-	print(uiData)
+		category["spent"] = amountSpent
+		category["remaining"] = int(int(category["budgeted"]) - int(category["spent"]))
+		#print(category)
+		#print("")
+	#print(categories)
+	#prepare the data for storage
+	var jsonString = json.stringify(finalData)
+	var parsed = json.parse(jsonString)
+	var new_data_to_write = json.get_data()
+	#write to the file
+	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.WRITE)
+	if savedCategoriesFile:
+		#print(new_data_to_write)
+		var store = json.stringify(new_data_to_write)
+		savedCategoriesFile.store_string(store)
+	savedCategoriesFile.close()
+	load_data()
 		
 
 func _on_accounts_menu_pressed():
