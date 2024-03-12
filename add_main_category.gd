@@ -36,6 +36,8 @@ func clearUI():
 	$TransactionsMenu.visible = false
 	$AnalyticsMenu.visible = false
 	$AccountsMenu.visible = false
+	$IncomeButton.visible = false
+	$SavingsButton.visible = false
 	
 #called when category lineEdit is renamed
 func categoryRename(newName, controlIndex): 
