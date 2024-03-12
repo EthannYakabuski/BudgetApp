@@ -1,8 +1,11 @@
 extends Node2D
 var categoryData
 var merchants
+var transactions
 var uiElements = []
+signal loadtransactions
 @export var main: PackedScene
+@export var categoryName: String
 
 func load_data(): 
 	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.READ)
@@ -18,7 +21,8 @@ func load_data():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_data()
-	loadMerchants() 
+	loadMerchants()
+	loadTransactions()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -33,7 +37,29 @@ func clearUI():
 	$SaveButton.visible = false
 	$BackButton.visible = false
 
-func loadMerchants(): 
+func loadTransactions(): 
+	print("loading and populating transaction tree")
+	var json = JSON.new()
+	var parsedData = json.parse(categoryData)
+	var finalData = json.get_data()
+	var data = finalData["categories"]
+	print($CategoryLabel.text)
+	for category in data: 
+		if(category.name == categoryName):
+			print("found match") 
+			transactions = category["transactions"]
+	var tree = $Tree
+	var root = tree.create_item()
+	root.set_text(0, "Transactions")
+	
+	for transaction in transactions:
+		print(transaction) 
+		var child = tree.create_item(root)
+		var itemString = transaction["amount"] + "    " + transaction["merchant"]
+		child.set_text(0, itemString)
+			
+
+func loadMerchants():
 	print("loading and populating merchant dropdown")
 	var menu = $MenuButton
 	var popUp = menu.get_popup()

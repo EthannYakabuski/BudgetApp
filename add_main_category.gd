@@ -3,6 +3,9 @@ var categoryData
 var uiElements = []
 var uiData = []
 @export var transaction_scene: PackedScene
+signal loadtransactions
+
+#set an exported variable value in the scene to load
 	
 func load_data(): 
 	var savedCategoriesFile = FileAccess.open("res://data.json", FileAccess.READ)
@@ -116,9 +119,11 @@ func addTransaction(categoryIndex):
 	$IncomeLabel/IncomeAmountLabel.visible = false
 	$ExpensesLabel/ExpenseAmountLabel.visible = false
 	$SavingsLabel/SavingsAmountLabel.visible = false
+	transScene.categoryName = categoryName
 	add_child(transScene)
 	var categoryLabel = transScene.get_node("CategoryLabel")
 	categoryLabel.text = categoryName
+	loadtransactions.emit(categoryName)
 
 #draws the title amounts
 func drawTitleAmounts(): 
